@@ -2,11 +2,11 @@ application: vince78718
 version: 1
 runtime: python27
 api_version: 1
-threadsafe: yes
+threadsafe: true 
 
 handlers:
-- url: .*
-  script: main.app
+- url: /.*
+  script: main.application
 
 libraries:
 - name: webapp2

@@ -5,6 +5,9 @@ import urllib
 from google.appengine.api import users
 from google.appengine.ext import ndb
 
+# webapp2
+import webapp2
+
 # define
 MAIN_PAGE_FOOTER_TEMPLATE = """\
 		<form action="/sign?%s" method="post">
@@ -31,7 +34,7 @@ class Greeting(ndb.Model):
 	""" Model of Greeting """
 	author = ndb.UserProperty()
 	content = ndb.StringProperty(indexed=False)
-	date = ndb.DateTimeProperty(auto_new_add=True)
+	date = ndb.DateTimeProperty(auto_now_add=True)
 
 # Main Page Class
 class MainPage(webapp2.RequestHandler):
@@ -48,7 +51,7 @@ class MainPage(webapp2.RequestHandler):
 
 		for greeting in greetings:
 			if greeting.author:
-				self.reponse.write(
+				self.response.write(
 						'<b>%s</b>: ' % greeting.author.nickname())
 			else:
 				self.response.write('Anonymouse: ')
@@ -68,7 +71,7 @@ class MainPage(webapp2.RequestHandler):
 # post handler
 class Guestbook(webapp2.RequestHandler):
 	def post(self):
-		guestbook.name = self.request.get('guestbook_name',DEFAULT_GUESTBOOK_NAME)
+		guestbook_name = self.request.get('guestbook_name',DEFAULT_GUESTBOOK_NAME)
 		greeting = Greeting(parent=guestbook_key(guestbook_name))
 
 		if users.get_current_user():
